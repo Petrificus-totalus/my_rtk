@@ -1,23 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from "react-redux";
+import { add, subAsync, listPush, listDel } from "./store/modules/counter";
 
 function App() {
+  const dispatch = useDispatch();
+  const { count, list } = useSelector((state) => state.counter);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        <li>{count}</li>
+        <li>
+          <button
+            onClick={() => {
+              dispatch(add());
+            }}
+          >
+            add
+          </button>
+        </li>
+        <li>
+          <button
+            onClick={() => {
+              dispatch(subAsync());
+            }}
+          >
+            subAsync
+          </button>
+        </li>
+      </ul>
+      <button
+        onClick={() => {
+          dispatch(listPush());
+        }}
+      >
+        list add
+      </button>
+      <ul>
+        {list.map((item, index) => (
+          <li
+            key={item}
+            onClick={() => {
+              dispatch(listDel(index));
+            }}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
